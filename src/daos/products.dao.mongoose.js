@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 import { DaoMongoose } from './daoMongoose.js'
 import mongoosePaginate from 'mongoose-paginate-v2'
 
+
 const ProductsCollection = "products"
 
 const productosSchema = new Schema({

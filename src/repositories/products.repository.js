@@ -1,4 +1,4 @@
-import { productosDaoMongoose } from "../daos/product.dao.mongoose.js"
+import { productosDaoMongoose } from "../daos/products.dao.mongoose.js"
 import { GenericRepository } from "./generic.repository.js"
 
 

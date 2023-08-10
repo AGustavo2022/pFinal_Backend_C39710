@@ -1,5 +1,5 @@
-import { Products } from "../models/product.models.js";
-import { productosRepository } from "../repositories/products.repository.js";
+import { Products } from "../models/products.models.js"
+import { productosRepository } from "../repositories/products.repository.js"
 
 
 class ProductsService {
