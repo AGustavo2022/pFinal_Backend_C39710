@@ -19,6 +19,14 @@ class ProductsService {
     async getProductsMongoose(pid) {
 
         const buscado = await productosRepository.readManyIdMongoose({
+            _id: pid
+        })
+        return buscado
+    }
+
+    async getProductsMOngoose(pid) {
+
+        const buscado = await productosRepository.readManyIdMongoose({
             id: pid
         })
         return buscado

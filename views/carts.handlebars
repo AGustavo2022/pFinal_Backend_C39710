@@ -1,0 +1,25 @@
+<h1>{{ titulo }}</h1>
+
+<nav>
+
+    <form id="formPurchase">
+      <button class="cartButton" type="submit" value="{{cart}}">FINALIZAR COMPRA</button>
+    </form>
+
+</nav>
+
+{{#if hayCart}}
+<p>El carrito {{ cart }} contiene los siguientes productos:</p>
+<ul>
+  {{#each productos}}
+  <li>Id:{{ this.productId }}</li>
+  <li>Producto:{{ this.productTitle }}</li>
+  <li>Precio:{{ this.productPrice }}</li>
+  <li>Cantidad: {{ this.quantity }}</li><br>
+  {{/each}}
+</ul>
+{{else}}
+<p>No hay productos en el carrito {{ cart }}</p>
+{{/if}}
+
+<script src="/js/purchase.js"></script>

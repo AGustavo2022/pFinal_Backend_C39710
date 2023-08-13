@@ -1,0 +1,59 @@
+<h2>{{encabezado}} </h2>
+
+<nav>
+  <div class="loguot">
+    <form id="formLogout">
+      <button type="submit">Logout</button>
+    </form>
+  </div>
+
+  <div class="cartList">
+    <form id="cartUser">
+      <button class="cartButton" type="submit" value="{{cart}}">IR AL CARRITO</button>
+    </form>
+  </div>
+
+  <div class="user">
+    Usuario:{{nick}} <br>
+    Roles: {{role}}<br>
+    <div>
+      <label for="cart_id">Cart</label> <input id="cart_id" disabled value="{{cart}}" size="35"><br>
+    </div>
+  </div>
+
+</nav>
+
+<div class="productList">
+  {{#if hayDocs}}
+  <ul>
+    {{#each docs}}
+    <form class="formAddToCart">
+      <div class="etiqueta">
+        <li><label for="product_id">Id</label> <input class="product_id" disabled value="{{this.id}}" size="35"><br>
+        </li>
+        {{!-- <li>id:{{this.id}}</li> --}}
+        <li>title: {{this.title}}</li>
+        <li>description: {{this.description}}</li>
+        <li>price: {{this.price}}</li>
+        <li>thumbnail: {{this.thumbnail}}</li>
+        <li>stock: {{this.stock}}</li>
+        <li>code: {{this.code}}</li>
+        <li>category: {{this.category}}</li>
+        <li>status: {{this.status}}</li>
+        <button type="submit">Agregar al Carrito</button>
+      </div>
+    </form>
+    {{/each}}
+  </ul>
+  {{else}}
+  array vacio...
+  {{/if}}
+</div>
+
+<a {{#if hasPrevPage}} href="/products/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
+[{{ page }}]
+<a {{#if hasNextPage}} href="/products/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
+
+<script src="/js/logout.js"></script>
+<script src="/js/cartUser.js"></script>
+<script src="/js/addToCart.js"></script>

@@ -25,7 +25,7 @@ class CartsService {
 
     async getCartsMongoose(cid) {
         const buscado = await cartsRepository.readManyIdMongoose({
-            id: cid
+            _id: cid
         })
         return buscado
     }
@@ -102,7 +102,7 @@ class CartsService {
 
         if (!carts) throw new Error('No se puede agregar al carrito: CARRITO no encontrado')
 
-        const [product] = await productsService.getProductsMongoose(idProduct)
+        const [product] = await productsService.getProductsMOngoose(idProduct)
 
         if (!product) throw new Error('No se puede agregar al carrito: PRODUCTO no encontrado')
 
@@ -143,9 +143,7 @@ class CartsService {
 
     async generarTickets(idCart) {
 
-        const [carts] = await cartsRepository.readManyIdMongoose({
-            id: idCart
-        })
+        const [carts] = await cartsRepository.readManyIdMongoose({id: idCart})
         if (!carts) throw new Error('No se puede agregar al carrito: CARRITO no encontrado')
 
         const productArrayCarts = []
@@ -239,3 +237,51 @@ class CartsService {
 
 
 export const cartsService = new CartsService()
+
+
+
+
+// async agregarAlCarrito(idCart, idProduct) {
+
+//     const carts = await cartsService.getCarts(idCart)
+
+//     if (!carts) throw new Error('No se puede agregar al carrito: CARRITO no encontrado')
+
+//     const [product] = await productsService.getProductsMongoose(idProduct)
+
+//     if (!product) throw new Error('No se puede agregar al carrito: PRODUCTO no encontrado')
+
+//     const existe = carts.productsCart.find(p => p.product.toString() === product._id.toString())
+
+//     if (existe === undefined) {
+
+//         const updatedCart = {
+//             $push: {
+//                 productsCart: [{
+//                     product: product._id,
+//                     quantity: 1
+//                 }]
+//             }
+//         }
+
+//         cartsService.putCart(idCart,updatedCart)
+
+//         return 'Producto Nuevo'
+        
+//     } else {
+
+//         const indice = carts.productsCart.findIndex(p => p.product.toString() == product._id.toString())
+
+//         const newQuantity = carts.productsCart[indice].quantity + 1
+
+//         const updatedCart = {
+//             $set: {
+//                 [`productsCart.${indice}.quantity`]: newQuantity
+//             }
+//         }
+
+//         cartsService.putCart(idCart,updatedCart)
+
+//     }
+//     return 'Producto Agregado'
+// }

@@ -1,7 +1,7 @@
 import { User } from "../models/users.models.js"
 import { usuariosRepository } from "../repositories/users.repository.js"
 import { criptografiador } from "../utils/criptografia.js"
-//import { cartsService } from "./carts.services.js"
+import { cartsService } from "./carts.services.js"
 
 
 
@@ -26,25 +26,25 @@ class UserService {
         return buscado
     }
 
-    // async postUser (user) {
+    async postUser (user) {
         
-    //     const datosUsuarioBody = new User(user)
+        const datosUsuarioBody = new User(user)
 
-    //     const datosUsuarios = datosUsuarioBody.dto()
+        const datosUsuarios = datosUsuarioBody.dto()
 
-    //     datosUsuarios.password = criptografiador.hashear(datosUsuarios.password)
+        datosUsuarios.password = criptografiador.hashear(datosUsuarios.password)
         
-    //     const newCart = await cartsService.postCarts({})
+        const newCart = await cartsService.postCarts({})
 
-    //     const nuevoUsuario = {
-    //         ...datosUsuarios,
-    //         cart : newCart._id
-    //     }
+        const nuevoUsuario = {
+            ...datosUsuarios,
+            cart : newCart._id
+        }
 
-    //     const usuarioGuardado = await usuariosRepository.create(nuevoUsuario)
+        const usuarioGuardado = await usuariosRepository.create(nuevoUsuario)
 
-    //     return usuarioGuardado
-    // }
+        return usuarioGuardado
+    }
 }
 
 export const usersService = new UserService()
