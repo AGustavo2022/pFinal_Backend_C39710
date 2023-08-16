@@ -46,7 +46,7 @@ export async function handleDelete(req, res, next) {
 
 }
 
-//revisar funcionalidad handlePut
+
 export async function handlePut(req, res, next) {
   const cid = req.params.cid
   const pid = req.params.pid
@@ -59,7 +59,6 @@ export async function handlePut(req, res, next) {
   }
 
 }
-/***********/
 
 export async function handlePostProduct(req, res, next) {
   try {

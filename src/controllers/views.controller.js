@@ -85,7 +85,6 @@ export async function handleCarts(req, res, next) {
             }))
         });
     } catch (error) {
-        // Manejar el error aquí y responder apropiadamente
         next(error);
     }
 }
@@ -94,17 +93,20 @@ export async function handlePurchase(req, res, next){
     
     const payload = await criptografiador.decodificarToken(req['accessToken'])
 
-    console.log(payload)
-    //const code = req.params.id
+    const userDate = await usersService.getUserEmail(payload.email)
 
-    //const ticket = await ticketService.getTickets('64d9468a70d5650d0fd2fe5a')
-
-    //console.log(ticket)
+    const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
+    
+    const [ticket] = await cartsService.generarTickets(userCart.id)
+    
+    console.log(ticket)
+    
     res.render('purchase', {
 
         titulo: 'Compra Finalizada',
         encabezado: 'Lista de Productos',
-        //ticket: ticket
+        ticket: ticket,
+        user: userDate.email
         
     })
 }

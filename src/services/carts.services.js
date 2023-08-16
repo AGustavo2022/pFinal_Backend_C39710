@@ -232,7 +232,6 @@ class CartsService {
             await cartsService.deleteCartProduct(carts.id, e._id)
         }
 
-
         return [ticket, ticketsCompraSinStock]
     }
 }
