@@ -8,6 +8,6 @@ productsRouter.get('/:id?', productsController.handleGet)
 
 productsRouter.post('/', productsController.handlePost)
 
-productsRouter.put('/:id', productsController.handlePut)
+productsRouter.put('/:id',  productsController.handlePut)
 
 productsRouter.delete('/:id',productsController.handleDelete)
