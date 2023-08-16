@@ -4,7 +4,7 @@ import { isAdmin, isAuthenticated } from "../../middleware/authentication.js"
 
 export const productsRouter = Router()
 
-productsRouter.get('/:id?', isAuthenticated, isAdmin, productsController.handleGet)   
+productsRouter.get('/:id?', productsController.handleGet)   
 
 productsRouter.post('/', isAuthenticated, isAdmin,productsController.handlePost)
 
