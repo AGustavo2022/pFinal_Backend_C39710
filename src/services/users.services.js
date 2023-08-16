@@ -2,6 +2,7 @@ import { User } from "../models/users.models.js"
 import { usuariosRepository } from "../repositories/users.repository.js"
 import { criptografiador } from "../utils/criptografia.js"
 import { cartsService } from "./carts.services.js"
+import { emailService } from "./email.services.js"
 
 
 
@@ -17,6 +18,11 @@ class UserService {
             const users = await usuariosRepository.readMany()
             return users
         }
+    }
+
+    async getUserEmail (email) {
+            const buscado = await usuariosRepository.readOne ({ email: email })
+            return buscado
     }
 
     async getUserMongoose(uid) {
@@ -43,7 +49,23 @@ class UserService {
 
         const usuarioGuardado = await usuariosRepository.create(nuevoUsuario)
 
-        return usuarioGuardado
+        const usuarioEmail = `
+        Datos del Usuario:
+        EMAIL: ${usuarioGuardado.email} 
+        NOMBRE Y APELLIDO: ${usuarioGuardado.first_name} ${usuarioGuardado.last_name}
+        ROL: ${usuarioGuardado.role}`
+
+        await emailService.send(nuevoUsuario.email, usuarioEmail)
+
+        const usuario = {
+            first_name: usuarioGuardado.first_name,
+            last_name: usuarioGuardado.last_name,
+            email: usuarioGuardado.email,
+            cart: usuarioGuardado.cart
+        }
+
+        return usuario
+        //return usuarioGuardado
     }
 }
 

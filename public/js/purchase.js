@@ -13,13 +13,14 @@ if (formPurchase instanceof HTMLFormElement) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        //body: JSON.stringify(datosUsuario)
+        //body: JSON.stringify(tickets)
       })
+      
 
-    //   if (status === 201) {
-    //     window.location.href = '/products'
-    //   } else {
-    //     window.location.href = '/register'
-    //   }
+  
+      if (status === 201) {
+
+        window.location.href = '/purchase'
+      }
 })
 }

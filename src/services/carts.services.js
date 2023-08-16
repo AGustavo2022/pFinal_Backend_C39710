@@ -1,7 +1,8 @@
 import {Carts} from "../models/carts.models.js"
 import {cartsRepository} from "../repositories/carts.repository.js"
-import {Ticket} from "../models/tickets.models.js"
+//import {Ticket} from "../models/tickets.models.js"
 import {productsService} from "./products.services.js"
+import { ticketService } from "./tickets.services.js"
 import { usersService } from "./users.services.js"
 
 
@@ -220,68 +221,20 @@ class CartsService {
         const [usuario] = await usersService.getUserMongoose(carts._id)
 
         const ticketData = {
-            amount: amount,
-            purchaser: usuario.email
-        }
+                amount: amount,
+                purchaser: usuario._id
+            }
 
-        const ticket = new Ticket(ticketData)
+        const ticket = await ticketService.postTicket(ticketData)
 
         for (const e of ticketsCompraConStock){
 
             await cartsService.deleteCartProduct(carts.id, e._id)
         }
 
-        return [ticket.dto(), ticketsCompraSinStock]
+
+        return [ticket, ticketsCompraSinStock]
     }
 }
 
-
 export const cartsService = new CartsService()
-
-
-
-
-// async agregarAlCarrito(idCart, idProduct) {
-
-//     const carts = await cartsService.getCarts(idCart)
-
-//     if (!carts) throw new Error('No se puede agregar al carrito: CARRITO no encontrado')
-
-//     const [product] = await productsService.getProductsMongoose(idProduct)
-
-//     if (!product) throw new Error('No se puede agregar al carrito: PRODUCTO no encontrado')
-
-//     const existe = carts.productsCart.find(p => p.product.toString() === product._id.toString())
-
-//     if (existe === undefined) {
-
-//         const updatedCart = {
-//             $push: {
-//                 productsCart: [{
-//                     product: product._id,
-//                     quantity: 1
-//                 }]
-//             }
-//         }
-
-//         cartsService.putCart(idCart,updatedCart)
-
-//         return 'Producto Nuevo'
-        
-//     } else {
-
-//         const indice = carts.productsCart.findIndex(p => p.product.toString() == product._id.toString())
-
-//         const newQuantity = carts.productsCart[indice].quantity + 1
-
-//         const updatedCart = {
-//             $set: {
-//                 [`productsCart.${indice}.quantity`]: newQuantity
-//             }
-//         }
-
-//         cartsService.putCart(idCart,updatedCart)
-
-//     }
-//     return 'Producto Agregado'
-// }

@@ -1,7 +1,7 @@
 const formLogin = document.querySelector('#formLogin')
 
-if (formPurchase instanceof HTMLFormElement) {
-  formPurchase.addEventListener('submit', async event => {
+if (formLogin instanceof HTMLFormElement) {
+  formLogin.addEventListener('submit', async event => {
     event.preventDefault()
 
     const input_email = document.querySelector('#input_email')

@@ -9,7 +9,12 @@ export async function handlePost(req, res, next) {
     try {
       const usuarioEncontrado = await sessionService.postSession(email, password)
 
-      const access_token = criptografiador.generarToken(usuarioEncontrado)
+      const usuario = {
+        first_name: usuarioEncontrado.first_name,
+        last_name: usuarioEncontrado.last_name,
+        email: usuarioEncontrado.email
+    }
+      const access_token = criptografiador.generarToken(usuario)
 
       res.cookie('authToken', access_token, {
         httpOnly: true,

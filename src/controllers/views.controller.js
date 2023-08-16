@@ -3,6 +3,8 @@ import { productosDaoMongoose } from '../daos/products.dao.mongoose.js'
 import {cartsService} from '../services/carts.services.js'
 import { cartsRepository } from '../repositories/carts.repository.js'
 import { criptografiador } from '../utils/criptografia.js'
+import { ticketService } from '../services/tickets.services.js'
+import { usersService } from '../services/users.services.js'
 
 
 export async function handleLogin(req, res, next) {
@@ -38,7 +40,11 @@ export async function handleProducts(req, res, next) {
 
     const userTocken = await criptografiador.decodificarToken(req['accessToken'])
 
-    const [userDate] = await cartsService.getCartsMongoose(userTocken.cart)
+    const userDate = await usersService.getUserEmail(userTocken.email)
+    
+    const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
+
+    console.log(userCart.id)
 
     res.render('products', {
 
@@ -55,8 +61,8 @@ export async function handleProducts(req, res, next) {
         prevPage: payload.prevPage,
         pagingCounter: payload.pagingCounter,
         nick: userTocken.first_name,
-        role: userTocken.role,
-        cart: userDate.id
+        role: userDate.role,
+        cart: userCart.id
     })
 
 }
@@ -82,4 +88,23 @@ export async function handleCarts(req, res, next) {
         // Manejar el error aquí y responder apropiadamente
         next(error);
     }
+}
+
+export async function handlePurchase(req, res, next){
+    
+    const payload = await criptografiador.decodificarToken(req['accessToken'])
+
+    console.log(payload)
+    //const code = req.params.id
+
+    //const ticket = await ticketService.getTickets('64d9468a70d5650d0fd2fe5a')
+
+    //console.log(ticket)
+    res.render('purchase', {
+
+        titulo: 'Compra Finalizada',
+        encabezado: 'Lista de Productos',
+        //ticket: ticket
+        
+    })
 }

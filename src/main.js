@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { PORT } from './config/server.config.js'
 import { app } from './app/server.js'
 import { CNX_STR } from './config/mongodb.config.js'
