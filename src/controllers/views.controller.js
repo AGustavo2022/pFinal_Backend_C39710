@@ -44,8 +44,6 @@ export async function handleProducts(req, res, next) {
     
     const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
 
-    console.log(userCart.id)
-
     res.render('products', {
 
         titulo: 'Products',
@@ -72,7 +70,6 @@ export async function handleCarts(req, res, next) {
 
     try {
         const myCart = await cartsModel.findOne(query).populate('productsCart.product');
-        
         res.render('carts', {
             titulo: 'Carrito de Compras',
             hayCart: myCart.productsCart.length > 0,
@@ -80,7 +77,7 @@ export async function handleCarts(req, res, next) {
             productos: myCart.productsCart.map(item => ({
                 productId: item.product.id,
                 productTitle: item.product.title,
-                productTitle: item.product.title,
+                productPrice: item.product.price,
                 quantity: item.quantity
             }))
         });
@@ -97,10 +94,8 @@ export async function handlePurchase(req, res, next){
 
     const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
     
-    const [ticket] = await cartsService.generarTickets(userCart.id)
-    
-    console.log(ticket)
-    
+    const ticket = await cartsService.generarTickets(userCart.id)
+ 
     res.render('purchase', {
 
         titulo: 'Compra Finalizada',

@@ -1,9 +1,19 @@
-import {Carts} from "../models/carts.models.js"
-import {cartsRepository} from "../repositories/carts.repository.js"
+import {
+    Carts
+} from "../models/carts.models.js"
+import {
+    cartsRepository
+} from "../repositories/carts.repository.js"
 //import {Ticket} from "../models/tickets.models.js"
-import {productsService} from "./products.services.js"
-import { ticketService } from "./tickets.services.js"
-import { usersService } from "./users.services.js"
+import {
+    productsService
+} from "./products.services.js"
+import {
+    ticketService
+} from "./tickets.services.js"
+import {
+    usersService
+} from "./users.services.js"
 
 
 
@@ -71,10 +81,10 @@ class CartsService {
     }
 
     async putCart(cid, updatedCart) {
-            const putCart = await cartsRepository.updateOne({
-                id: cid
-            }, updatedCart)
-            return putCart
+        const putCart = await cartsRepository.updateOne({
+            id: cid
+        }, updatedCart)
+        return putCart
     }
 
     async putCartQty(cid, pid, qty) {
@@ -83,8 +93,8 @@ class CartsService {
         const [product] = await productsService.getProductsMongoose(pid)
         const indice = carts.productsCart.findIndex(p => p.product.toString() == product._id.toString())
         const newQuantity = qty
-        const qtY = parseInt(Object.values(newQuantity)) 
-        
+        const qtY = parseInt(Object.values(newQuantity))
+
         const updatedCart = {
             $set: {
                 [`productsCart.${indice}.quantity`]: qtY
@@ -120,10 +130,10 @@ class CartsService {
                 }
             }
 
-            cartsService.putCart(idCart,updatedCart)
+            cartsService.putCart(idCart, updatedCart)
 
             return 'Producto Nuevo'
-            
+
         } else {
 
             const indice = carts.productsCart.findIndex(p => p.product.toString() == product._id.toString())
@@ -136,7 +146,7 @@ class CartsService {
                 }
             }
 
-            cartsService.putCart(idCart,updatedCart)
+            cartsService.putCart(idCart, updatedCart)
 
         }
         return 'Producto Agregado'
@@ -232,8 +242,98 @@ class CartsService {
             await cartsService.deleteCartProduct(carts.id, e._id)
         }
 
-        return [ticket, ticketsCompraSinStock]
+        //return [ticket, ticketsCompraSinStock]
+        
+        return ticket
     }
 }
-
 export const cartsService = new CartsService()
+
+
+
+
+// if (ticketsCompraConStock.length > 0) {
+//     for (const e of ticketsCompraConStock) {
+//         amount += e.subTotal;
+//     }
+
+//     const [usuario] = await usersService.getUserMongoose(carts._id);
+
+//     const ticketData = {
+//         amount: amount,
+//         purchaser: usuario._id
+//     };
+
+//     const ticket = await ticketService.postTicket(ticketData);
+
+//     for (const e of ticketsCompraConStock) {
+//         await cartsService.deleteCartProduct(carts.id, e._id);
+//     }
+
+//     return [ticket];
+// } else {
+//     return [];
+// }
+
+// Después de generar los arrays ticketsCompraConStock y ticketsCompraSinStock
+
+// if (ticketsCompraConStock.length > 0) {
+//     for (const e of ticketsCompraConStock) {
+//         amount += e.subTotal;
+//     }
+
+//     const [usuario] = await usersService.getUserMongoose(carts._id);
+
+//     const ticketData = {
+//         amount: amount,
+//         purchaser: usuario._id
+//     };
+
+//     const ticket = await ticketService.postTicket(ticketData);
+
+//     for (const e of ticketsCompraConStock) {
+//         await cartsService.deleteCartProduct(carts.id, e._id);
+//     }
+
+//     return [ticket, ticketsCompraSinStock];
+//     } else {
+//     for (const e of ticketsCompraConStock) {
+//         amount += e.subTotal;
+//     }
+
+//     const [usuario] = await usersService.getUserMongoose(carts._id);
+
+//     const ticketData = {
+//         amount: amount,
+//         purchaser: usuario._id
+//     };
+
+//     const ticket = await ticketService.postTicket(ticketData);
+
+//     console.log(ticket)
+//     return [ticket];
+//     }
+
+
+//     for (const e of ticketsCompraConStock) {
+
+//         amount += e.subTotal
+
+//     }
+
+//     const [usuario] = await usersService.getUserMongoose(carts._id)
+
+//     const ticketData = {
+//         amount: amount,
+//         purchaser: usuario._id
+//     }
+
+
+//     const ticket = await ticketService.postTicket(ticketData)
+
+//     for (const e of ticketsCompraConStock){
+
+//         await cartsService.deleteCartProduct(carts.id, e._id)
+//     }
+
+//     return [ticket, ticketsCompraSinStock]
