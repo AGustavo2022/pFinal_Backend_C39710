@@ -1,3 +1,4 @@
+
 const formPurchase = document.querySelector('#formPurchase')
 
 if (formPurchase instanceof HTMLFormElement) {
@@ -5,22 +6,30 @@ if (formPurchase instanceof HTMLFormElement) {
     event.preventDefault()
 
     const cart = document.querySelector('.cartButton')
-    
 
-      const { status } = await fetch(`/api/carts/${cart.value}/purchase`, {
+    await fetch(`/api/carts/${cart.value}/purchase`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        //body: JSON.stringify(tickets)
       })
-      
+      .then(response => response.json())
+      .then(data => {
+        lista(data)
+      })
+  })
 
-  
-      if (status === 201) {
+}
 
-        window.location.href = '/purchase'
-      }
-})
+function lista(data) {
+  const divPurchase = document.querySelector('#tickets')
+  if (divPurchase instanceof HTMLDivElement) {
+    divPurchase.innerHTML = `
+    COD.TICKETS: ${data.code}<br>
+    FECHA DE COMPRA: ${data.purchase_datetime}<br>
+    TOTAL: $ ${data.amount} <br>
+    COD.USUARIO: ${data.purchaser}
+`
+  }
 }

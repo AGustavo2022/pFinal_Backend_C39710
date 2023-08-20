@@ -9,6 +9,11 @@ class TicketService {
         return buscado
     }
 
+    async getTicketsEmail(email) {
+        const buscado = await ticketsRepository.readOne({ email: email })
+        return buscado
+    }
+
     async postTicket(arr) {
         const ticket = new Ticket(arr)
         const creado = await ticketsRepository.create(ticket.dto())

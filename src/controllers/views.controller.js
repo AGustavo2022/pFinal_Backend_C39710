@@ -1,9 +1,7 @@
 import { cartsModel } from '../daos/carts.dao.mongoose.js'
 import { productosDaoMongoose } from '../daos/products.dao.mongoose.js'
 import {cartsService} from '../services/carts.services.js'
-import { cartsRepository } from '../repositories/carts.repository.js'
 import { criptografiador } from '../utils/criptografia.js'
-import { ticketService } from '../services/tickets.services.js'
 import { usersService } from '../services/users.services.js'
 
 
@@ -44,8 +42,6 @@ export async function handleProducts(req, res, next) {
     
     const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
 
-    console.log(userCart.id)
-
     res.render('products', {
 
         titulo: 'Products',
@@ -68,11 +64,17 @@ export async function handleProducts(req, res, next) {
 }
 
 export async function handleCarts(req, res, next) {
-    const query = req.params.id;
+    
+    const userTocken = await criptografiador.decodificarToken(req['accessToken'])
+    
+    const userDate = await usersService.getUserEmail(userTocken.email)
+    
+    const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
+    
+    const query = userCart._id;
 
     try {
         const myCart = await cartsModel.findOne(query).populate('productsCart.product');
-        
         res.render('carts', {
             titulo: 'Carrito de Compras',
             hayCart: myCart.productsCart.length > 0,
@@ -80,33 +82,11 @@ export async function handleCarts(req, res, next) {
             productos: myCart.productsCart.map(item => ({
                 productId: item.product.id,
                 productTitle: item.product.title,
-                productTitle: item.product.title,
+                productPrice: item.product.price,
                 quantity: item.quantity
             }))
         });
     } catch (error) {
         next(error);
     }
-}
-
-export async function handlePurchase(req, res, next){
-    
-    const payload = await criptografiador.decodificarToken(req['accessToken'])
-
-    const userDate = await usersService.getUserEmail(payload.email)
-
-    const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
-    
-    const [ticket] = await cartsService.generarTickets(userCart.id)
-    
-    console.log(ticket)
-    
-    res.render('purchase', {
-
-        titulo: 'Compra Finalizada',
-        encabezado: 'Lista de Productos',
-        ticket: ticket,
-        user: userDate.email
-        
-    })
 }
