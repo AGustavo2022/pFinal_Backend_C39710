@@ -1,11 +1,7 @@
 <h1>{{ titulo }}</h1>
 
 <nav>
-
-    <form id="formPurchase">
-      <button class="cartButton" type="submit" value="{{cart}}">FINALIZAR COMPRA</button>
-    </form>
-
+    <a href="/products"><button type="button" value="Ir">IR A PRODUCTO</button></a>
 </nav>
 
 {{#if hayCart}}
@@ -22,4 +18,12 @@
 <p>No hay productos en el carrito {{ cart }}</p>
 {{/if}}
 
+{{#if hayCart}}
+<form id="formPurchase">
+  <button class="cartButton" type="submit" value="{{cart}}">GENERAR TICKETS</button>
+</form>
+<div id="tickets"></div>
+{{/if}}
+
 <script src="/js/purchase.js"></script>
+
