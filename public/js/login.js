@@ -17,7 +17,7 @@ if (formLogin instanceof HTMLFormElement) {
         password: input_password.value,
       }
 
-      const { status } = await fetch('/api/session', {
+      const response = await fetch('/api/session', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -26,11 +26,13 @@ if (formLogin instanceof HTMLFormElement) {
         body: JSON.stringify(datosUsuario)
       })
 
-      if (status === 201) {
-        window.location.href = '/products'
-      } else {
-        window.location.href = '/register'
+      if (response.status === 201) {
+        window.location.replace('/products')
+      } else if (response.status === 500) {
+        alert('credenciales invalidas!')
       }
+      
     }
+
   })
 }

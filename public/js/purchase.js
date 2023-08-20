@@ -7,7 +7,7 @@ if (formPurchase instanceof HTMLFormElement) {
     const cart = document.querySelector('.cartButton')
     
 
-      const { status } = await fetch(`/api/carts/${cart.value}/purchase`, {
+      const  {status}  = await fetch(`/api/carts/${cart.value}/purchase`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -16,8 +16,6 @@ if (formPurchase instanceof HTMLFormElement) {
         //body: JSON.stringify(tickets)
       })
       
-
-  
       if (status === 201) {
 
         window.location.href = '/purchase'

@@ -66,7 +66,14 @@ export async function handleProducts(req, res, next) {
 }
 
 export async function handleCarts(req, res, next) {
-    const query = req.params.id;
+    
+    const userTocken = await criptografiador.decodificarToken(req['accessToken'])
+    
+    const userDate = await usersService.getUserEmail(userTocken.email)
+    
+    const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
+    
+    const query = userCart._id;
 
     try {
         const myCart = await cartsModel.findOne(query).populate('productsCart.product');
@@ -92,16 +99,29 @@ export async function handlePurchase(req, res, next){
 
     const userDate = await usersService.getUserEmail(payload.email)
 
-    const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
-    
-    const ticket = await cartsService.generarTickets(userCart.id)
- 
-    res.render('purchase', {
+    // const ticket = await ticketService.getTicketsEmail(userDate.email)
 
-        titulo: 'Compra Finalizada',
-        encabezado: 'Lista de Productos',
-        ticket: ticket,
-        user: userDate.email
-        
-    })
+    // console.log(ticket)
+    
 }
+
+
+
+// const payload = await criptografiador.decodificarToken(req['accessToken'])
+
+//     const userDate = await usersService.getUserEmail(payload.email)
+
+//     const [userCart] = await cartsService.getCartsMongoose(userDate.cart)
+    
+//     //const ticket = await cartsService.generarTickets(userCart.id)
+//     console.log(res.generarTickets)
+//     res.render('purchase', {
+
+//         titulo: 'Compra Finalizada',
+//         encabezado: 'Lista de Productos',
+//         code: ticket.code,
+//         purchase_datetime: ticket.purchase_datetime,
+//         amount: ticket.amount,
+//         user: userDate.email
+        
+//     })
