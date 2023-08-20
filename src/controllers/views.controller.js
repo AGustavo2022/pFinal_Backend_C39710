@@ -1,9 +1,7 @@
 import { cartsModel } from '../daos/carts.dao.mongoose.js'
 import { productosDaoMongoose } from '../daos/products.dao.mongoose.js'
 import {cartsService} from '../services/carts.services.js'
-import { cartsRepository } from '../repositories/carts.repository.js'
 import { criptografiador } from '../utils/criptografia.js'
-import { ticketService } from '../services/tickets.services.js'
 import { usersService } from '../services/users.services.js'
 
 
@@ -92,17 +90,3 @@ export async function handleCarts(req, res, next) {
         next(error);
     }
 }
-
-export async function handlePurchase(req, res, next){
-    
-    res.render('purchase', {
-
-         titulo: 'Compra Finalizada',
-        // encabezado: 'Lista de Productos',
-        // code: ticket.code,
-        // purchase_datetime: ticket.purchase_datetime,
-        // amount: ticket.amount,
-        // user: userDate.email
-        
-    })
-    }

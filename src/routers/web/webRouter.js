@@ -10,11 +10,13 @@ webRouter.use(express.json())
 webRouter.use(express.urlencoded({ extended: true }))
 webRouter.use(express.static('./public'))
 
+webRouter.get('/', (req, res) => {
+    res.redirect('/login')
+  })
 
 webRouter.get('/login', viewsController.handleLogin)
 webRouter.get('/register', viewsController.handleRegister)
 webRouter.get('/products', viewsController.handleProducts)
 webRouter.get('/cart/:cid', viewsController.handleCarts)
-webRouter.get('/purchase', viewsController.handlePurchase)
 
 //webRouter.use(manejoDeErroresWeb)
