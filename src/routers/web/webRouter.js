@@ -18,5 +18,6 @@ webRouter.get('/login', viewsController.handleLogin)
 webRouter.get('/register', viewsController.handleRegister)
 webRouter.get('/products', viewsController.handleProducts)
 webRouter.get('/cart/:cid', viewsController.handleCarts)
+webRouter.get('/users', viewsController.handleUsers)
 
 //webRouter.use(manejoDeErroresWeb)

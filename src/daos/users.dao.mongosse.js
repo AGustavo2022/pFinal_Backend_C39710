@@ -11,7 +11,8 @@ const schemaUsers = new Schema({
     age: { type: Number, required: true},
     password: { type: String, required: true},
     cart:  { type: Schema.Types.ObjectId, ref: 'users' },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' }
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    last_connection: { type: Date, required: true}
     
 }, { versionKey: false })
 

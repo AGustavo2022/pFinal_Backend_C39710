@@ -7,3 +7,5 @@ export const usersRouter = Router()
 usersRouter.get('/:id?', userController.handleGet)
 
 usersRouter.post('/', userController.handlePost)
+
+usersRouter.delete('/', userController.handleDelete)
