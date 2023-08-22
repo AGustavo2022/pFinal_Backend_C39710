@@ -1,4 +1,5 @@
 import { DatosPrincipales, User } from "../models/users.models.js"
+import { cartsRepository } from "../repositories/carts.repository.js"
 import { usuariosRepository } from "../repositories/users.repository.js"
 import { criptografiador } from "../utils/criptografia.js"
 import { cartsService } from "./carts.services.js"
@@ -10,7 +11,7 @@ class UserService {
 
     constructor() {}
 
-    async #getUser () {
+    async getUserComp () {
         const users = await usuariosRepository.readMany()  
         return users
     }
@@ -61,13 +62,14 @@ class UserService {
 
         const usuarioGuardado = await usuariosRepository.create(nuevoUsuario)
 
+        const subject = 'Alta de Usuario'
         const usuarioEmail = `
         Datos del Usuario:
         EMAIL: ${usuarioGuardado.email} 
         NOMBRE Y APELLIDO: ${usuarioGuardado.first_name} ${usuarioGuardado.last_name}
         ROL: ${usuarioGuardado.role}`
 
-        await emailService.send(nuevoUsuario.email, usuarioEmail)
+        await emailService.send(nuevoUsuario.email, usuarioEmail, subject)
 
         const usuarioPublico = await this.getUser(usuarioGuardado.id)
         
@@ -82,33 +84,30 @@ class UserService {
     
     async deleteUser(){
         
-        const connection = new Date()
+        const currentDate  = new Date()
         //2 dias
-        //const inactive = 2*24*60*1000
+        const inactivePeriod  = 2*24*60*1000
         //30 min
-        const inactive = 30*60*1000
+        //const inactivePeriod = 30*60*1000
+        try{
+            const users = await this.getUserComp()
+            for (const user of users) {
+                const lastConnection = new Date(user.last_connection);
+                const timeSinceLastConnection = currentDate - lastConnection;
+                if (timeSinceLastConnection > inactivePeriod) {
 
-        const users = await this.#getUser()
-        //console.log(users)
-        for (const user of users) {
-            const arr = connection - user.last_connection.getTime();
-            if (arr > inactive) {
-
-                
-                // El usuario ha estado inactivo durante más de 30 minutos
-                console.log(`User ${user.email} has been inactive for more than 30 minutes.`);
-                // Aquí puedes realizar acciones como eliminar el usuario o enviar un correo electrónico.
+                    const subject = 'Cuenta Inactiva'
+                    const usuarioEmail = `Usuario ${user.email} su cuenta ha sido eliminada por inactividad`
+            
+                    await emailService.send(user.email, usuarioEmail, subject)
+                    await cartsRepository.deleteOne(user.cart)
+                    await usuariosRepository.deleteOne(user._id)
+                }
             }
-        }
-
-
-        // console.log(connection)
-        // const inactiveUsers = users.filter(user => {
-        //     return connection - user.last_connection > inactive
-        // })
-        // return inactiveUsers
+        }catch (error) {
+            console.error('Error al eliminar usuarios inactivos:', error);
+          }
     }
-
 }
 
 export const usersService = new UserService()

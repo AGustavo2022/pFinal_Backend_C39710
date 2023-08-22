@@ -1,39 +1,40 @@
 <h2>{{titulo}} </h2>
 
-<nav>
-  <div class="loguot">
-    <form id="formLogout">
-      <button type="submit">Logout</button>
-    </form>
-  </div>
-</nav>
-
 
 {{#if hayUsers}}
 
 <ul>
   {{#each payload}}
-  <li>EMAIL:{{ this.email }}</li>
-  <li>NOMBRE:{{ this.first_name }}{{ this.last_name }}</li>
-  <li>ROL: {{ this.role }}</li>
-  <li>ULTIMA CONECCION : {{this.last_connection}}</li><br>
+  <form class="formActualizacion">
+    <div>
+      <li>USUARIO:<input class="usuario_id" disabled value="{{this.id}}" size="35"><br></li>
+      <li>EMAIL:{{ this.email }}</li>
+      <li>NOMBRE:{{ this.first_name }}{{ this.last_name }}</li>
+      <li>ROL: {{ this.role }}</li>
+      <li>NUEVO ROL: <select name="nuevoRol" class="select">
+                          <option>user</option>
+                          <option>premium</option>
+                          <option>admin</option>
+                      </select>
+      <button type="submit">UPDATE</button>
+      </li>
+      <li>ULTIMA CONECCION : {{this.last_connection}}</li>
+      <br>
+    </div>
+  </form>
+  
+
   {{/each}}
 </ul>
 {{else}}
 <p>No hay Usuarios {{ cart }}</p>
 {{/if}}
 
-{{#if hayCart}}
-<form id="formPurchase">
-  <button class="cartButton" type="submit" value="{{cart}}">GENERAR TICKETS</button>
-</form>
-<div id="tickets"></div>
-{{/if}}
-
 <form id="formUsuario">
-  <button class="cartButton" type="submit" value="{{cart}}">GENERAR TICKETS</button>
+  <button class="cartButton" type="submit" value="{{cart}}">Eliminar Usuarios Inactivos</button>
+  *Se considera cuenta inactiva el lapso de 2 dias.
 </form>
 <div id="usuarios"></div>
 
 
-{{!-- <script src="/js/users.js"></script> --}}
+<script src="/js/admin.js"></script>

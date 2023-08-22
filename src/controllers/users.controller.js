@@ -30,3 +30,16 @@ export async function handleDelete(req, res, next) {
 
   res.json(eliminados)
 }
+
+export async function handlePut(req, res, next) {
+  
+  const uid = req.params.id
+  const updatedProduct = req.body
+  try {
+    const updated = await usersService.putUser(uid, updatedProduct)
+    res.json(updated)
+  } catch (error) {
+    next(error)
+  }
+  
+}
