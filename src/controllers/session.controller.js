@@ -46,10 +46,8 @@ export async function handleCurrent (req, res, next) {
   const userData = {
     email: payload.email,
     first_name: payload.first_name,
-    last_name: payload.last_name,
-    age: payload.age,
-    role: payload.role
+    last_name: payload.last_name
   }
 
-  res.json({userData })
+  res.json(userData)
 }

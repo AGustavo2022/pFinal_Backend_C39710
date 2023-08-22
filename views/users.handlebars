@@ -1,0 +1,40 @@
+<h2>{{titulo}} </h2>
+
+
+{{#if hayUsers}}
+
+<ul>
+  {{#each payload}}
+  <form class="formActualizacion">
+    <div>
+      <li>USUARIO:<input class="usuario_id" disabled value="{{this.id}}" size="35"><br></li>
+      <li>EMAIL:{{ this.email }}</li>
+      <li>NOMBRE:{{ this.first_name }}{{ this.last_name }}</li>
+      <li>ROL: {{ this.role }}</li>
+      <li>NUEVO ROL: <select name="nuevoRol" class="select">
+                          <option>user</option>
+                          <option>premium</option>
+                          <option>admin</option>
+                      </select>
+      <button type="submit">UPDATE</button>
+      </li>
+      <li>ULTIMA CONECCION : {{this.last_connection}}</li>
+      <br>
+    </div>
+  </form>
+  
+
+  {{/each}}
+</ul>
+{{else}}
+<p>No hay Usuarios {{ cart }}</p>
+{{/if}}
+
+<form id="formUsuario">
+  <button class="cartButton" type="submit" value="{{cart}}">Eliminar Usuarios Inactivos</button>
+  *Se considera cuenta inactiva el lapso de 2 dias.
+</form>
+<div id="usuarios"></div>
+
+
+<script src="/js/admin.js"></script>

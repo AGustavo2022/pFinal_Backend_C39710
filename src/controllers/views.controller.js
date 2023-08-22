@@ -90,3 +90,13 @@ export async function handleCarts(req, res, next) {
         next(error);
     }
 }
+
+export async function handleUsers (req, res, next) {
+
+    const payload = await usersService.getUserComp()
+    res.render('users', {
+        titulo: 'Administracio de Usuarios',
+        hayUsers: payload.length > 0,
+        payload: payload,
+    })
+}

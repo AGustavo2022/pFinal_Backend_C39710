@@ -1,19 +1,9 @@
-import {
-    Carts
-} from "../models/carts.models.js"
-import {
-    cartsRepository
-} from "../repositories/carts.repository.js"
-//import {Ticket} from "../models/tickets.models.js"
-import {
-    productsService
-} from "./products.services.js"
-import {
-    ticketService
-} from "./tickets.services.js"
-import {
-    usersService
-} from "./users.services.js"
+import {Carts} from "../models/carts.models.js"
+import {cartsRepository} from "../repositories/carts.repository.js"
+import { emailService } from "./email.services.js"
+import {productsService} from "./products.services.js"
+import {ticketService} from "./tickets.services.js"
+import {usersService} from "./users.services.js"
 
 
 
@@ -242,8 +232,16 @@ class CartsService {
             await cartsService.deleteCartProduct(carts.id, e._id)
         }
 
+        const subject = 'Compra Autorizada'
+        const usuarioEmail = `Usuario ${usuario.email} su compra fue procesada !!!!!
+
+        Codigo: ${ticket.code}
+        Fecha: ${ticket.purchase_datetime}
+        Total a Pagar: Arg$ ${ticket.amount} 
+        Usuario: ${usuario.id}`
+
+        await emailService.send(usuario.email, usuarioEmail, subject)
         //return [ticket, ticketsCompraSinStock]
-        
         return ticket
     }
 }

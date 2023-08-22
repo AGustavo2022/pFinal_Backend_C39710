@@ -8,11 +8,11 @@ class EmailService {
     this.#clienteNodemailer = createTransport(config)
   }
 
-  async send(destinatario, mensaje) {
+  async send(destinatario, mensaje, subject) {
     const mailOptions = {
       from: 'Enviado del Servidor',
       to: destinatario,
-      subject: 'Alta de Usuario!',
+      subject: subject,
       text: mensaje,
     }
     try {
