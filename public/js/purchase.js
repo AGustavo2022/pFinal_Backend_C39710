@@ -6,6 +6,7 @@ if (formPurchase instanceof HTMLFormElement) {
     event.preventDefault()
 
     const cart = document.querySelector('.cartButton')
+    const submitButton = formPurchase.querySelector('button[type="submit"]')
 
     await fetch(`/api/carts/${cart.value}/purchase`, {
         method: 'POST',
@@ -17,6 +18,9 @@ if (formPurchase instanceof HTMLFormElement) {
       .then(response => response.json())
       .then(data => {
         lista(data)
+      })
+      .finally(() => {
+        submitButton.disabled = true;
       })
   })
 
