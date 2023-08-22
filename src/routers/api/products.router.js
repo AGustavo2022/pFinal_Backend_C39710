@@ -6,8 +6,8 @@ export const productsRouter = Router()
 
 productsRouter.get('/:id?', productsController.handleGet)   
 
-productsRouter.post('/',productsController.handlePost)
+productsRouter.post('/',isAdmin, productsController.handlePost)
 
-productsRouter.put('/:id',productsController.handlePut)
+productsRouter.put('/:id',isAdmin,productsController.handlePut)
 
-productsRouter.delete('/:id',productsController.handleDelete)
+productsRouter.delete('/:id',isAdmin, productsController.handleDelete)
