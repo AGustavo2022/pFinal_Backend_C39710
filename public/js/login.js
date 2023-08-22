@@ -27,7 +27,12 @@ if (formLogin instanceof HTMLFormElement) {
       })
 
       if (response.status === 201) {
-        window.location.replace('/products')
+        
+        if (email = 'admin@admin'){
+          window.location.replace('/admin')
+        }else{
+          window.location.replace('/products')
+        }
       } else if (response.status === 500) {
         alert('credenciales invalidas!')
       }

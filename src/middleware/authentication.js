@@ -38,3 +38,16 @@ export async function isAdmin(req, res, next) {
         res.status(403).send('Access denied');
     }
 }
+
+export async function isCheckRol(req, res, next) {
+
+  const payload = await criptografiador.decodificarToken(req['accessToken'])
+  
+  const user = payload.role
+
+    if (user === 'premium' || user === 'admin') {
+        next();
+    } else {
+        res.status(403).send('Access denied');
+    }
+}
