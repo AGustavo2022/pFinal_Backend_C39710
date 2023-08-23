@@ -11,6 +11,7 @@ export class Products {
     #stock
     #category
     #thumbnail
+    #user
 
     constructor({
         id = newId(), 
@@ -21,7 +22,8 @@ export class Products {
         status, 
         stock, 
         category, 
-        thumbnail
+        thumbnail,
+        user
         }) {
             this.#id = id
             this.#title = title
@@ -32,6 +34,7 @@ export class Products {
             this.#stock = stock
             this.#category = category
             this.#thumbnail = thumbnail
+            this.#user = user
     }
 
     dto() {
@@ -45,6 +48,7 @@ export class Products {
             stock: this.#stock, 
             category: this.#category,
             thumbnail:  this.#thumbnail,
+            user: this.#user
         }
     }
 }
