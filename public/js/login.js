@@ -26,9 +26,11 @@ if (formLogin instanceof HTMLFormElement) {
         body: JSON.stringify(datosUsuario)
       })
 
+      const responseData = await response.json()
+
       if (response.status === 201) {
         
-        if (email = 'admin@admin'){
+        if (responseData.email === 'admin@admin'){
           window.location.replace('/admin')
         }else{
           window.location.replace('/products')
