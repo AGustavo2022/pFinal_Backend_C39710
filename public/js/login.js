@@ -26,8 +26,15 @@ if (formLogin instanceof HTMLFormElement) {
         body: JSON.stringify(datosUsuario)
       })
 
+      const responseData = await response.json()
+
       if (response.status === 201) {
-        window.location.replace('/products')
+        
+        if (responseData.email === 'admin@admin'){
+          window.location.replace('/admin')
+        }else{
+          window.location.replace('/products')
+        }
       } else if (response.status === 500) {
         alert('credenciales invalidas!')
       }

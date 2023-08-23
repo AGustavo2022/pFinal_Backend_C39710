@@ -12,7 +12,8 @@ export async function handlePost(req, res, next) {
       const usuario = {
         first_name: usuarioEncontrado.first_name,
         last_name: usuarioEncontrado.last_name,
-        email: usuarioEncontrado.email
+        email: usuarioEncontrado.email,
+        role: usuarioEncontrado.role
     }
       const access_token = criptografiador.generarToken(usuario)
 
