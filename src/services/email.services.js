@@ -17,10 +17,8 @@ class EmailService {
     }
     try {
       const info = await this.#clienteNodemailer.sendMail(mailOptions)
-      // console.log(info)
       return info
     } catch (error) {
-      // console.log(error)
       throw error
     }
   }

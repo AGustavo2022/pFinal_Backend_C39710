@@ -7,16 +7,6 @@ export const EMAIL_CONFIG = {
   }
 }
 
-
-// const PROD_EMAIL_CONFIG = {
-//     service: 'gmail',
-//     port: 587,
-//     auth: {
-//       user: process.env.EMAIL_USER,
-//       pass: process.env.EMAIL_PASS
-//     }
-//   }
-  
 //   const TEST_EMAIL_CONFIG = {
 //     host: 'smtp.ethereal.email',
 //     port: 587,

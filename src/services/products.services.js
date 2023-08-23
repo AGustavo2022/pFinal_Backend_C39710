@@ -1,6 +1,7 @@
 import { Products } from "../models/products.models.js"
 import { productosRepository } from "../repositories/products.repository.js"
 import { emailService } from "./email.services.js"
+import { usersService } from "./users.services.js"
 
 
 
@@ -52,22 +53,29 @@ class ProductsService {
 
     async deleteProduct (pid) {
         const product = await this.getProducts(pid)
-        
-        const subject = 'Producto Eliminado'
-        const usuarioEmail = ` Su Producto se elimino de la db
-        id: ${product.id},
-        title: ${product.title},
-        description: ${product.description},
-        price: ${product.price},
-        thumbnail: ${product.thumbnail},
-        stock: ${product.stock},
-        code: ${product.code},
-        category: ${product.category},
-        status: ${product.status},
-        `
-        await emailService.send(product.user, usuarioEmail, subject)
-        const deleteProduct = await productosRepository.deleteOne({ id: pid }) 
-        return deleteProduct   
+        const user = await usersService.getUserEmail(product.user)
+ 
+        if (user.role === 'premium') {
+
+            const subject = 'Producto Eliminado'
+            const usuarioEmail = ` Su Producto se elimino de la db
+                        id: ${product.id},
+                        title: ${product.title},
+                        description: ${product.description},
+                        price: ${product.price},
+                        thumbnail: ${product.thumbnail},
+                        stock: ${product.stock},
+                        code: ${product.code},
+                        category: ${product.category},
+                        status: ${product.status},
+                        `
+            await emailService.send(product.user, usuarioEmail, subject)
+            const deleteProduct = await productosRepository.deleteOne({id: pid})
+            return deleteProduct
+        } else {
+            const deleteProduct = await productosRepository.deleteOne({id: pid})
+            return deleteProduct
+        }  
     }
 }
 
