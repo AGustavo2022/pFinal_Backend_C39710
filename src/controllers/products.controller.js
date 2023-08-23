@@ -1,4 +1,5 @@
 import { productsService } from '../services/products.services.js'
+import { criptografiador } from '../utils/criptografia.js'
 
 export async function handleGet(req, res, next) {
   const pid = req.params.id
@@ -12,8 +13,9 @@ export async function handleGet(req, res, next) {
 
 export async function handlePost(req, res, next) {
   const producto = req.body
+  const user = await criptografiador.decodificarToken(req['accessToken'])
   try {
-    const creado = await productsService.postProduct(producto)
+    const creado = await productsService.postProduct(producto, user)
     res.status(201).json(creado)
   } catch (error) {
     next(error)
